@@ -112,6 +112,44 @@ class LinkedList
     end
   end
 
+  def insert_at(value, index)
+    new_node = Node.new(value)
+    if index == 0
+      node = @head
+      @head = new_node
+      return @head.next = node
+    end
+    count = 0
+    curr_node = @head
+    until count == index
+      curr_node = curr_node.next
+      count += 1
+    end
+
+    next_node = curr_node.next
+    curr_node.next = new_node
+    new_node.next = next_node
+  end
+
+  def remove_at(index)
+    if index == 0
+      node = @head
+      return @head = node.next
+    end
+    count = 0
+    node = @head
+    until (count + 1) == index
+      node = node.next
+      count += 1
+    end
+
+    curr_node = node.next
+    next_node = curr_node.next
+    prev_node = node
+    prev_node.next = next_node
+    curr_node
+  end
+
   def to_s
     curr_node = @head
     print_list = ''
@@ -133,7 +171,7 @@ class Node
     @value = value
     @next  = nil
   end
-  
+
   def to_s
     "#{value}"
   end
@@ -141,29 +179,12 @@ end
 
 linked = LinkedList.new
 
-puts "append "
-puts linked.append(10)
-puts "append "
-puts linked.append(1)
-puts "prepend "
-puts linked.prepend(2)
-puts "append "
-puts linked.append(5)
-puts "pop "
-puts linked.pop
-puts "size "
-puts linked.size
-puts "head "
-puts linked.head
-puts "tail "
-puts linked.tail
-puts "at "
-puts linked.at(2)
-puts "countains "
-puts linked.countains?(1)
-puts "find "
-puts linked.find(1)
-puts "print"
-puts linked.to_s
-puts linked.pop
-puts linked.to_s
+linked.append(1)
+linked.append(2)
+linked.append(3)
+linked.append(4)
+linked.append(5)
+puts linked.remove_at(0)
+puts linked
+linked.insert_at(3, 0)
+puts linked
