@@ -3,15 +3,8 @@ class LinkedList
     @head = nil
   end
 
-  def is_empty?
-    return true if @head.nil?
-
-    false
-  end
-
   def head
-    node = @head
-    node.nil? ? nil : node.value
+    @head.nil? ? nil : @head.value
   end
 
   def tail
@@ -24,42 +17,35 @@ class LinkedList
   end
 
   def append(value)
-    if is_empty?
-      @head = Node.new(value)
-    else
-      curr_node = @head
-      new_node = Node.new(value)
-      curr_node = curr_node.next until curr_node.next.nil?
-      curr_node.next = new_node
-    end
+    return @head = Node.new(value) if @head.nil?
+
+    curr_node = @head
+    curr_node = curr_node.next until curr_node.next.nil?
+    curr_node.next = Node.new(value)
   end
 
   def prepend(value)
-    if is_empty?
-      @head = Node.new(value)
-    else
-      curr_node = Node.new(value)
-      curr_node.next = @head
-      @head = curr_node
-    end
+    return @head = Node.new(value) if @head.nil?
+
+    curr_node = Node.new(value)
+    curr_node.next = @head
+    @head = curr_node
   end
 
   def size
-    if is_empty?
-      count = 0
-    else
-      count = 1
-      curr_node = @head
-      until curr_node.next.nil?
-        curr_node = curr_node.next
-        count += 1
-      end
-      count
+    return 0 if @head.nil?
+
+    count = 1
+    curr_node = @head
+    until curr_node.next.nil?
+      curr_node = curr_node.next
+      count += 1
     end
+    count
   end
 
   def at(index)
-    return nil if is_empty?
+    return nil if @head.nil?
 
     count = 0
     curr_node = @head
@@ -69,10 +55,11 @@ class LinkedList
       curr_node = curr_node.next
       count += 1
     end
+    nil
   end
 
   def pop
-    return 'Empty' if is_empty?
+    return nil if @head.nil?
 
     curr_node = @head
     curr_node = curr_node.next until curr_node.next.next.nil?
@@ -83,33 +70,29 @@ class LinkedList
   end
 
   def countains?(value)
-    if is_empty?
-      false
-    else
-      curr_node = @head
-      until curr_node.nil?
-        return true if curr_node.value == value
+    return false if @head.nil?
 
-        curr_node = curr_node.next
-      end
-      false
+    curr_node = @head
+    until curr_node.nil?
+      return true if curr_node.value == value
+
+      curr_node = curr_node.next
     end
+    false
   end
 
   def find(value)
-    if is_empty?
-      nil
-    else
-      count = 0
-      curr_node = @head
-      until curr_node.nil?
-        return count if curr_node.value == value
+    return nil if @head.nil?
 
-        curr_node = curr_node.next
-        count += 1
-      end
-      nil
+    count = 0
+    curr_node = @head
+    until curr_node.nil?
+      return count if curr_node.value == value
+
+      curr_node = curr_node.next
+      count += 1
     end
+    nil
   end
 
   def insert_at(value, index)
@@ -134,8 +117,10 @@ class LinkedList
   def remove_at(index)
     if index == 0
       node = @head
-      return @head = node.next
+      @head = node.next
+      return node
     end
+
     count = 0
     node = @head
     until (count + 1) == index
@@ -187,4 +172,6 @@ linked.append(5)
 puts linked.remove_at(0)
 puts linked
 linked.insert_at(3, 0)
+linked.append(6)
 puts linked
+puts linked.head
